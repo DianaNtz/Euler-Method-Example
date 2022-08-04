@@ -35,3 +35,25 @@ z1=np.empty(timesteps, dtype='double')
 z1n=z10
 z2=np.empty(timesteps, dtype='double')
 z2n=z20
+def fx(x,ydot):
+    return wz**2/2*x-wc*ydot
+def fy(y,xdot):
+    return wz**2/2*y+wc*xdot
+def fz(z):
+    return -wz**2*z
+#Starting loop for time iteration
+for i in range(0,timesteps):    
+    t[i]=tn
+    x1[i]=x1n
+    x2[i]=x2n
+    y1[i]=y1n
+    y2[i]=y2n
+    z1[i]=z1n
+    z2[i]=z2n       
+    z1n=z1n+dt*z2n
+    z2n=z2n+dt*fz(z1n)   
+    x1n=x1n+dt*x2n
+    y1n=y1n+dt*y2n
+    x2n=x2n+dt*fx(x1n,y2n)
+    y2n=y2n+dt*fy(y1n,x2n)     
+    tn=tn+dt
