@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3
 import os
 import imageio
+filenames = []
 #Some initial values
 wc=28
 wz=6.77 
@@ -57,3 +58,39 @@ for i in range(0,timesteps):
     x2n=x2n+dt*fx(x1n,y2n)
     y2n=y2n+dt*fy(y1n,x2n)     
     tn=tn+dt
+    if(i%5000==0):
+       fig = plt.figure()
+       ax = p3.Axes3D(fig)
+       x=np.cos(wm*t[:i])+0.15*np.cos(t[:i]*wc_mod)
+       y=np.sin(wm*t[:i])+0.15*np.sin(t[:i]*wc_mod)
+       z=0.7*np.cos(wz*t[:i])
+       ax.plot(x, y, z,color='skyblue',linewidth=2)
+       ax.plot(x1[:i], y1[:i],z1[:i],color='deeppink',linestyle='-.',linewidth=2)
+       ax.set_xlim(-1.1,1.1)
+       ax.set_ylim(-1.1,1.1)
+       ax.set_zlim(-1.1,1.1)
+       ax.set_xlabel("x(t)",fontsize= 15,labelpad=10)
+       ax.set_ylabel("y(t)",fontsize= 15,labelpad=10)
+       ax.set_zlabel("z(t)",fontsize= 15,labelpad=10)
+       ax.zaxis.set_tick_params(labelsize=13)
+       ax.yaxis.set_tick_params(labelsize=13)
+       ax.xaxis.set_tick_params(labelsize=13)
+       ax.set_xticks([-1,-0.5,0,0.5,1.0])
+       ax.set_yticks([-1,-0.5,0,0.5,1.0])
+       ax.set_zticks([-1,-0.5,0,0.5,1.0])
+       ax.view_init(10, 210)
+       #ax.view_init(90, 210)   #Top view
+       filename ='bla{0:.0f}.png'.format(i/5000)
+       #append file name to the list filename
+       filenames.append(filename)    
+       #save the plot
+       plt.savefig(filename,dpi=250)
+       plt.close()    
+#build the gif
+with imageio.get_writer('analyvsnumeric.gif', mode='I') as writer:
+    for filename in filenames:
+        image = imageio.imread(filename)
+        writer.append_data(image)       
+#remove saved figures 
+for filename in set(filenames):
+    os.remove(filename)  
