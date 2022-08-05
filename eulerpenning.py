@@ -1,5 +1,8 @@
 """
-@author: Diana Nitzschke
+The code below was written by @author: https://github.com/DianaNtz and is an 
+implementation of the Euler method. It solves in particular the coupled system 
+of the ordinary differential equations obtained from the Lorentz force of a 
+Penning trap.
 """
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,7 +10,7 @@ import mpl_toolkits.mplot3d.axes3d as p3
 import os
 import imageio
 filenames = []
-#Some initial values
+#some initial values
 wc=28
 wz=6.77 
 wm=wc/2-np.sqrt(wc**2/4-wz**2/2)
@@ -42,7 +45,7 @@ def fy(y,xdot):
     return wz**2/2*y+wc*xdot
 def fz(z):
     return -wz**2*z
-#Starting loop for time iteration
+#starting loop for time iteration
 for i in range(0,timesteps):    
     t[i]=tn
     x1[i]=x1n
@@ -79,7 +82,7 @@ for i in range(0,timesteps):
        ax.set_yticks([-1,-0.5,0,0.5,1.0])
        ax.set_zticks([-1,-0.5,0,0.5,1.0])
        ax.view_init(10, 210)
-       #ax.view_init(90, 210)   #Top view
+       #ax.view_init(90, 210)   #top view
        filename ='bla{0:.0f}.png'.format(i/5000)
        #append file name to the list filename
        filenames.append(filename)    
