@@ -87,7 +87,7 @@ for i in range(0,timesteps):
        #append file name to the list filename
        filenames.append(filename)    
        #save the plot
-       plt.savefig(filename,dpi=250)
+       plt.savefig(filename,dpi=150)
        plt.close()    
 #build the gif
 with imageio.get_writer('analyvsnumeric.gif', mode='I') as writer:
