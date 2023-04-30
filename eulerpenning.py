@@ -6,7 +6,6 @@ Penning trap.
 """
 import numpy as np
 import matplotlib.pyplot as plt
-import mpl_toolkits.mplot3d.axes3d as p3
 import os
 import imageio
 filenames = []
@@ -54,16 +53,16 @@ for i in range(0,timesteps):
     y2[i]=y2n
     z1[i]=z1n
     z2[i]=z2n       
-    z1n=z1n+dt*z2n
-    z2n=z2n+dt*fz(z1n)   
-    x1n=x1n+dt*x2n
-    y1n=y1n+dt*y2n
-    x2n=x2n+dt*fx(x1n,y2n)
-    y2n=y2n+dt*fy(y1n,x2n)     
+    z1n=z1[i]+dt*z2[i]
+    z2n=z2[i]+dt*fz(z1[i])   
+    x1n=x1[i]+dt*x2[i]
+    y1n=y1[i]+dt*y2[i]
+    x2n=x2[i]+dt*fx(x1[i],y2[i])
+    y2n=y2[i]+dt*fy(y1[i],x2[i])     
     tn=tn+dt
     if(i%5000==0):
        fig = plt.figure()
-       ax = p3.Axes3D(fig)
+       ax = fig.add_subplot(111,projection='3d')
        x=np.cos(wm*t[:i])+0.15*np.cos(t[:i]*wc_mod)
        y=np.sin(wm*t[:i])+0.15*np.sin(t[:i]*wc_mod)
        z=0.7*np.cos(wz*t[:i])
